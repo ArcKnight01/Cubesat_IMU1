@@ -1,3 +1,6 @@
+#Nevin Thinagar
+#July 13, 2022
+
 import time
 import os
 import board
@@ -56,3 +59,9 @@ def checkPrecision(testAccel, testGyro, sampleLength = 1, zeroG = False):
 
     
 
+<<<<<<< HEAD
+while True:
+    print(sensor.accelerometer)
+    time.sleep(0.1)
+=======
+>>>>>>> 8b80508e2e1d5ec1b51f60ef2c65aec475e6bcd5
