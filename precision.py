@@ -21,9 +21,11 @@ def checkPrecision(testSensor, sampleLength):
         sensor modes during the sample time as a string. For example:
             checkPrecision(sensor,2) -> 
 
-    
+    Raises:
+        AssertionError: Raised when incorrect sensor object is inputted or sample time in not an integer
     """
     assert type(testSensor) is adafruit_fxos8700.FXOS8700 and type(sampleLength) is int
+    
 
     
 
