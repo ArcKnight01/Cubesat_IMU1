@@ -37,12 +37,9 @@ def checkPrecision(testAccel, testGyro, sampleLength):
     while time.time_ns() < end:
         accelX, accelY, accelZ = testAccel.accelerometer
         gyroX, gyroY, gyroZ = testGyro.gyroscope
-        aXlist.append(accelX)
-        aYlist.append(accelY)
-        aZlist.append(accelZ)
-        gXlist.append(gyroX)
-        gYlist.append(gyroY)
-        gZlist.append(gyroZ)
+        convert = {accelX:aXlist, accelY:aYlist, accelY:aYlist, gyroX:gXlist, gyroY:gYlist, gyroZ:gZlist}
+        for val, ls in convert.items():
+            ls.append(val)
     print(aXlist)
 
 checkPrecision(accelerometer,gyroscope,5)
