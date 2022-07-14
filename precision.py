@@ -25,7 +25,14 @@ def checkPrecision(testSensor, sampleLength):
         AssertionError: Raised when incorrect sensor object is inputted or sample time in not an integer
     """
     assert type(testSensor) is adafruit_fxos8700.FXOS8700 and type(sampleLength) is int
+
+    end = time.time_ns() + sampleLength*1000000000
     
+    while time.time_ns() < end:
+        accelX, accelY, accelZ = testSensor.accelerometer
+    print(accelX)
+
+checkPrecision(sensor,5)
 
     
 
