@@ -10,7 +10,7 @@ i2c = busio.I2C(board.SCL, board.SDA)
 accelerometer = adafruit_fxos8700.FXOS8700(i2c)
 gyroscope = adafruit_fxas21002c.FXAS21002C(i2c)
 
-def checkPrecision(testAccel, testGyro, sampleLength):
+def checkPrecision(testAccel, testGyro, sampleLength = 1, zeroG = False):
     """This function checks the precision of the accelerometer/magnometer
     connected to the Raspberry Pi. Leave the sensor on a flat surface 
     and do not disturb it while the test is running.
@@ -18,12 +18,14 @@ def checkPrecision(testAccel, testGyro, sampleLength):
     Args:
         testAccel: The accelerometer that is being tested. Must be anadafruit_fxos8700.FXOS8700 sensor object.
         testGyro: The gyroscope that is being tested. Must be adafruit_fxas21002c.FXAS21002C sensor object.
-        sampleLength: The ammount of time for which the test should be carried out in seconds. Must be an integer. 
+        sampleLength: The duration for which the test should be carried out in seconds. Must be an integer, default time is 1 second.
+        zeroG: Set value as true to ignore the effect of gravity on accelerometer. Set to False if left empty. 
     
     Returns:
         The average deviation from the calibrated values in all axis and 
-        sensor modes during the sample time as a string. For example:
-            checkPrecision(sensor,2) -> 
+        sensor modes during the sample time as a dictionary in the format {'Accelerometer':[X,Y,Z], 'Gyroscope':[X,Y,Z]} 
+        where X, Y, and Z are floats. For example:
+            checkPrecision(accel,gyro,2) -> {'Accelerometer':[0.123,-1.234 ,0.123],'Gyroscope':[0.00123,0.00123,0.00123]}
 
     Raises:
         AssertionError: Raised when incorrect sensor objects are inputted or the sample time is not an integer
@@ -39,10 +41,18 @@ def checkPrecision(testAccel, testGyro, sampleLength):
         sumGyro += np.array(testGyro.gyroscope)
         reps += 1
 
-    print(sumAccel)
-    #print(aXlist)
+    sumAccel = sumAccel/reps
+    sumGyro = sumGyro/reps
 
-checkPrecision(accelerometer,gyroscope,5)
+    if zeroG == False:
+        sumAccel -= np.array([0.0,0.0,9.81])
+
+    out = {}
+    
+    out.update({'Accelerometer':(sumAccel.tolist())})
+    out.update({'Gyroscope':(sumGyro.tolist())})
+    print(out)
+    return out
 
     
 
