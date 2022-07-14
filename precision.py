@@ -31,12 +31,15 @@ def checkPrecision(testAccel, testGyro, sampleLength):
 
     aXlist, aYlist, aZlist, gXlist, gYlist, gZlist = ([] for i in range(6))
     sensVals = [accelX,accelY,accelZ,gyroX,gyroY,gyroZ]
+    valsToList = {accelX:aXlist, accelY:aYlist, accelZ:aZlist, gyroX:gXlist, gyroY:gYlist, gyroY:gYlist}
 
     end = time.time_ns() + sampleLength*1000000000
     
     while time.time_ns() < end:
         accelX, accelY, accelZ = testAccel.accelerometer
         gyroX, gyroY, gyroZ = testGyro.gyroscope
+        for val in sensVals:
+            valsToList[val].append(val)
     print(aXlist)
 
 checkPrecision(accelerometer,gyroscope,5)
