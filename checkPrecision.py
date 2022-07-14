@@ -41,8 +41,8 @@ def checkPrecision(testAccel, testGyro, sampleLength = 1, zeroG = False):
     reps = 0
     
     while time.time_ns() < end:
-        sumAccel += np.array(testAccel.accelerometer)
-        sumGyro += np.array(testGyro.gyroscope)
+        sumAccel += np.around(np.array(testAccel.accelerometer),10)
+        sumGyro += np.around(np.array(testGyro.gyroscope),10)
         reps += 1
 
     sumAccel = sumAccel/reps
