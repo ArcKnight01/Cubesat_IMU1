@@ -39,6 +39,7 @@ def checkPrecision(testAccel, testGyro, sampleLength = 1, zeroG = False):
 
     end = time.time_ns() + sampleLength*1000000000
     reps = 0
+    
     while time.time_ns() < end:
         sumAccel += np.array(testAccel.accelerometer)
         sumGyro += np.array(testGyro.gyroscope)
