@@ -28,18 +28,21 @@ def checkPrecision(testAccel, testGyro, sampleLength):
         AssertionError: Raised when incorrect sensor object is inputted or sample time in not an integer
     """
     assert type(testAccel) is adafruit_fxos8700.FXOS8700 and type(testGyro) is adafruit_fxas21002c.FXAS21002C and type(sampleLength) is int
-
+    
+    accelX,accelY,accelZ,gyroX,gyroY,gyroZ = (None for i in range(6))
     aXlist, aYlist, aZlist, gXlist, gYlist, gZlist = ([] for i in range(6))
-    sensVals = [accelX,accelY,accelZ,gyroX,gyroY,gyroZ]
-    valsToList = {accelX:aXlist, accelY:aYlist, accelZ:aZlist, gyroX:gXlist, gyroY:gYlist, gyroY:gYlist}
 
     end = time.time_ns() + sampleLength*1000000000
     
     while time.time_ns() < end:
         accelX, accelY, accelZ = testAccel.accelerometer
         gyroX, gyroY, gyroZ = testGyro.gyroscope
-        for val in sensVals:
-            valsToList[val].append(val)
+        aXlist.append(accelX)
+        aYlist.append(accelY)
+        aZlist.append(accelZ)
+        gXlist.append(gyroX)
+        gYlist.append(gyroY)
+        gZlist.append(gyroZ)
     print(aXlist)
 
 checkPrecision(accelerometer,gyroscope,5)
