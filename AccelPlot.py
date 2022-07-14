@@ -7,8 +7,7 @@ import os
 import board
 import busio
 import adafruit_fxos8700
-import matplotlib.pyplot as plt
-%matplotlib notebook
+import matplotlib.pyplot as plt 
 
 i2c = busio.I2C(board.SCL, board.SDA)
 sensor = adafruit_fxos8700.FXOS8700(i2c)
@@ -30,4 +29,8 @@ def AccelPlot():
 		ax.set_ylabel("Acclereration (m/s^2)")
 		ax.set_xlabel("Elapsed time (sec)")
 		ax.set_title("Acceleration over time")
+		plt.show()
+		timed +=1
+
+AccelPlot()
 
