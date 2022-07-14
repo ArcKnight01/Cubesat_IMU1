@@ -2,6 +2,7 @@ import time
 import os
 import board
 import busio
+import numpy as np
 import adafruit_fxos8700
 import adafruit_fxas21002c
 
@@ -25,22 +26,21 @@ def checkPrecision(testAccel, testGyro, sampleLength):
             checkPrecision(sensor,2) -> 
 
     Raises:
-        AssertionError: Raised when incorrect sensor object is inputted or sample time in not an integer
+        AssertionError: Raised when incorrect sensor objects are inputted or the sample time is not an integer
     """
     assert type(testAccel) is adafruit_fxos8700.FXOS8700 and type(testGyro) is adafruit_fxas21002c.FXAS21002C and type(sampleLength) is int
     
-    accelX,accelY,accelZ,gyroX,gyroY,gyroZ = (None for i in range(6))
-    aXlist, aYlist, aZlist, gXlist, gYlist, gZlist = ([] for i in range(6))
+    sumAccel, sumGyro = (np.array([0.0,0.0,0.0]) for i in range(2))
 
     end = time.time_ns() + sampleLength*1000000000
-    
+    reps = 0
     while time.time_ns() < end:
-        accelX, accelY, accelZ = testAccel.accelerometer
-        gyroX, gyroY, gyroZ = testGyro.gyroscope
-        convert = {accelX:aXlist, accelY:aYlist, accelY:aYlist, gyroX:gXlist, gyroY:gYlist, gyroZ:gZlist}
-        for val, ls in convert.items():
-            ls.append(val)
-    print(aXlist)
+        sumAccel += np.array(testAccel.accelerometer)
+        sumGyro += np.array(testGyro.gyroscope)
+        reps += 1
+
+    print(sumAccel)
+    #print(aXlist)
 
 checkPrecision(accelerometer,gyroscope,5)
 
