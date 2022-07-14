@@ -56,12 +56,3 @@ def checkPrecision(testAccel, testGyro, sampleLength = 1, zeroG = False):
     out.update({'Gyroscope':(sumGyro.tolist())})
     print(out)
     return out
-
-    
-
-<<<<<<< HEAD
-while True:
-    print(sensor.accelerometer)
-    time.sleep(0.1)
-=======
->>>>>>> 8b80508e2e1d5ec1b51f60ef2c65aec475e6bcd5
