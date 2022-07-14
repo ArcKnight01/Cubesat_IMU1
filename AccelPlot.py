@@ -23,6 +23,7 @@ def AccelPlot():
 		accelY.append(sensor.accelerometer[1])
 		accelZ.append(sensor.accelerometer[2])
 		elapT.append(timed)
+		print(elapT)
 		fig, ax = plt.subplots()
 		ax.plot(accelX, elapT, accelY, accelZ)
 		ax.grid(True)
@@ -30,7 +31,10 @@ def AccelPlot():
 		ax.set_xlabel("Elapsed time (sec)")
 		ax.set_title("Acceleration over time")
 		plt.show()
+		print("showing")
 		timed +=1
+		time.sleep(3)
+		plt.close()
+		print("closed")
 
 AccelPlot()
-
