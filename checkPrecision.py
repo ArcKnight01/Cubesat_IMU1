@@ -28,14 +28,14 @@ def checkPrecision(testAccel, testGyro, sampleLength = 1, zeroG = False):
         The average deviation from the calibrated values in all axis and 
         sensor modes during the sample time as a dictionary in the format {'Accelerometer':[X,Y,Z], 'Gyroscope':[X,Y,Z]} 
         where X, Y, and Z are floats. For example:
-            checkPrecision(accel,gyro,2) -> {'Accelerometer':[0.123,-1.234 ,0.123],'Gyroscope':[0.00123,0.00123,0.00123]}
+            checkPrecision(accel,gyro) -> {'Accelerometer':[0.123,-1.234 ,11.234],'Gyroscope':[0.00123,0.00123,0.00123],'Magnometer':[-12.345,-12.345,-123.345]}
 
     Raises:
         AssertionError: Raised when incorrect sensor objects are inputted or the sample time is not an integer
     """
     assert type(testAccel) is adafruit_fxos8700.FXOS8700 and type(testGyro) is adafruit_fxas21002c.FXAS21002C and type(sampleLength) is int
     
-    sumAccel, sumGyro = (np.array([0.0,0.0,0.0]) for i in range(2))
+    sumAccel, sumGyro, sumMagno = (np.array([0.0,0.0,0.0]) for i in range(3))
 
     end = time.time_ns() + sampleLength*1000000000
     reps = 0
@@ -43,10 +43,12 @@ def checkPrecision(testAccel, testGyro, sampleLength = 1, zeroG = False):
     while time.time_ns() < end:
         sumAccel += np.around(np.array(testAccel.accelerometer),9)
         sumGyro += np.around(np.array(testGyro.gyroscope),9)
+        sumMagno += np.around(np.array(testAccel.magnetometer),1)
         reps += 1
 
     sumAccel = sumAccel/reps
     sumGyro = sumGyro/reps
+    sumMagno = sumMagno/reps
 
     if zeroG == False:
         sumAccel -= np.array([0.0,0.0,9.81])
@@ -55,5 +57,6 @@ def checkPrecision(testAccel, testGyro, sampleLength = 1, zeroG = False):
     
     out.update({'Accelerometer':(sumAccel.tolist())})
     out.update({'Gyroscope':(sumGyro.tolist())})
+    out.update({'Magnometer':(sumMagno.tolist())})
     print(out)
     return out
