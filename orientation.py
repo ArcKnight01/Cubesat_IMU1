@@ -1,3 +1,6 @@
+#Grant Sims
+#July 13, 2022
+
 import time
 import os
 import board
