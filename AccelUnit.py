@@ -15,9 +15,9 @@ sensor = adafruit_fxos8700.FXOS8700(i2c)
 def senseVals ():
     """This code prints out the acceleration values the IMU is reading once per second."""
     while True:
-        print(str(round(sensor.accelerometer[0],4)) + "m/s^2",
-        str(round(sensor.accelerometer[1],4))+"m/s^2",
-        str(round(sensor.accelerometer[2],4))+"m/s^2")
+        print("X: " + str(round(sensor.accelerometer[0],9)) + "m/s^2",
+        "Y: " + str(round(sensor.accelerometer[1],9))+"m/s^2",
+        "Z: " + str(round(sensor.accelerometer[2],9))+"m/s^2")
         time.sleep(1)
 
 senseVals()
